@@ -174,10 +174,11 @@ rule qc_html_report:
         "../envs/rbt.yaml"
     params:
         formatter=get_resource("report-table-formatter.js"),
+        pin_until="sample",
     log:
         "logs/{date}/qc_report_html.log",
     shell:
-        "rbt csv-report {input} --formatter {params.formatter} {output} > {log} 2>&1"
+        "rbt csv-report {input} --formatter {params.formatter} --pin-until {params.pin_until} {output} > {log} 2>&1"
 
 
 rule snakemake_reports:
@@ -191,12 +192,12 @@ rule snakemake_reports:
         # lambda wildcards: expand(
         #     "results/{{date}}/plots/strain-calls/{sample}.strains.kallisto.svg",
         #     sample=get_samples_for_date(wildcards.date),
-        # ),
+        # ) if config["strain-calling"]["use-kallisto"] else "",
         "results/{date}/qc_data",
         # expand(
         #     "results/{{date}}/plots/all.{mode}-strain.strains.kallisto.svg",
         #     mode=["major", "any"],
-        # ),
+        # ) if config["strain-calling"]["use-kallisto"] else "",
         # lambda wildcards: expand(
         #     "results/{{date}}/plots/strain-calls/{sample}.strains.pangolin.svg",
         #     sample=get_samples_for_date(wildcards.date),
@@ -223,6 +224,6 @@ rule snakemake_reports:
             else ""
         ),
     log:
-        "../logs/snakemake_reports/{date}.log",
+        "logs/snakemake_reports/{date}.log",
     shell:
         "snakemake --nolock --report-stylesheet resources/custom-stylesheet.css {input} --report {output} {params.for_testing}"
