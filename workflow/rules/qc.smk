@@ -25,30 +25,30 @@ rule multiqc:
             "results/{{date}}/species-diversity-nonhuman/{sample}/{sample}.cleaned.kreport2",
             sample=get_samples_for_date(wildcards.date),
         ),
-        lambda wildcards: expand(
-            "results/{{date}}/trimmed/{sample}.fastp.json",
-            sample=get_samples_for_date(wildcards.date),
-        ),
-        lambda wildcards: expand(
-            "results/{{date}}/quast/unpolished/{sample}/report.tsv",
-            sample=get_samples_for_date(wildcards.date),
-        ),
-        lambda wildcards: expand(
-            "results/{{date}}/quast/polished/{sample}/report.tsv",
-            sample=get_samples_for_date(wildcards.date),
-        ),
-        lambda wildcards: expand(
-            "results/{{date}}/qc/samtools_flagstat/{sample}.bam.flagstat",
-            sample=get_samples_for_date(wildcards.date),
-        ),
-        lambda wildcards: expand(
-            "results/{{date}}/qc/dedup/ref~main/{sample}.metrics.txt",
-            sample=get_samples_for_date(wildcards.date),
-        ),
-        lambda wildcards: expand(
-            "logs/{{date}}/kallisto_quant/{sample}.log",
-            sample=get_samples_for_date(wildcards.date),
-        ) if config["strain-calling"]["use-kallisto"] else "",
+        # lambda wildcards: expand(
+        #     "results/{{date}}/trimmed/{sample}.fastp.json",
+        #     sample=get_samples_for_date(wildcards.date),
+        # ),
+        # lambda wildcards: expand(
+        #     "results/{{date}}/quast/unpolished/{sample}/report.tsv",
+        #     sample=get_samples_for_date(wildcards.date),
+        # ),
+        # lambda wildcards: expand(
+        #     "results/{{date}}/quast/polished/{sample}/report.tsv",
+        #     sample=get_samples_for_date(wildcards.date),
+        # ),
+        # lambda wildcards: expand(
+        #     "results/{{date}}/qc/samtools_flagstat/{sample}.bam.flagstat",
+        #     sample=get_samples_for_date(wildcards.date),
+        # ),
+        # lambda wildcards: expand(
+        #     "results/{{date}}/qc/dedup/ref~main/{sample}.metrics.txt",
+        #     sample=get_samples_for_date(wildcards.date),
+        # ),
+        # lambda wildcards: expand(
+        #     "logs/{{date}}/kallisto_quant/{sample}.log",
+        #     sample=get_samples_for_date(wildcards.date),
+        # ) if config["strain-calling"]["use-kallisto"] else "",
     output:
         "results/{date}/qc/multiqc.html",
     params:
@@ -126,9 +126,7 @@ rule samtools_depth:
 rule species_diversity_before:
     input:
         db="resources/minikraken-8GB",
-        reads=expand(
-            "results/{{date}}/trimmed/{{sample}}.{read}.fastq.gz", read=[1, 2]
-        ),
+        reads=get_fastqs,
     output:
         classified_reads=temp(
             expand(
@@ -234,7 +232,7 @@ rule species_diversity_after:
     input:
         db="resources/minikraken-8GB",
         reads=expand(
-            "results/{{date}}/nonhuman-reads/{{sample}}.{read}.fastq.gz", read=[1, 2]
+            "results/{{date}}/ref-db/nonhuman-reads/{{sample}}.{read}.fastq.gz", read=[1, 2]
         ),
     output:
         kraken_output=temp(
