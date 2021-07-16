@@ -196,37 +196,37 @@ rule combine_references:
 
 
 # filter out human contamination
-rule extract_reads_of_interest:
-    input:
-        "results/{date}/mapped/ref~main+human/{sample}.bam",
-    output:
-        temp("results/{date}/mapped/ref~main+human/nonhuman/{sample}.bam"),
-    log:
-        "logs/{date}/extract_reads_of_interest/{sample}.log",
-    threads: 1
-    conda:
-        "../envs/python.yaml"
-    script:
-        "../scripts/extract-reads-of-interest.py"
+# rule extract_reads_of_interest:
+#     input:
+#         "results/{date}/mapped/ref~main+human/{sample}.bam",
+#     output:
+#         temp("results/{date}/mapped/ref~main+human/nonhuman/{sample}.bam"),
+#     log:
+#         "logs/{date}/extract_reads_of_interest/{sample}.log",
+#     threads: 1
+#     conda:
+#         "../envs/python.yaml"
+#     script:
+#         "../scripts/extract-reads-of-interest.py"
 
 
-rule order_nonhuman_reads:
-    input:
-        "results/{date}/mapped/ref~main+human/nonhuman/{sample}.bam",
-    output:
-        fq1=temp("results/{date}/nonhuman-reads/{sample}.1.fastq.gz"),
-        fq2=temp("results/{date}/nonhuman-reads/{sample}.2.fastq.gz"),
-        bam_sorted=temp("results/{date}/nonhuman-reads/{sample}.sorted.bam"),
-    log:
-        "logs/{date}/order_nonhuman_reads/{sample}.log",
-    conda:
-        "../envs/samtools.yaml"
-    threads: 8
-    shell:
-        """
-        samtools sort  -@ {threads} -n {input} -o {output.bam_sorted} > {log} 2>&1
-        samtools fastq -@ {threads} {output.bam_sorted} -1 {output.fq1} -2 {output.fq2} >> {log} 2>&1
-        """
+# rule order_nonhuman_reads:
+#     input:
+#         "results/{date}/mapped/ref~main+human/nonhuman/{sample}.bam",
+#     output:
+#         fq1=temp("results/{date}/nonhuman-reads/{sample}.1.fastq.gz"),
+#         fq2=temp("results/{date}/nonhuman-reads/{sample}.2.fastq.gz"),
+#         bam_sorted=temp("results/{date}/nonhuman-reads/{sample}.sorted.bam"),
+#     log:
+#         "logs/{date}/order_nonhuman_reads/{sample}.log",
+#     conda:
+#         "../envs/samtools.yaml"
+#     threads: 8
+#     shell:
+#         """
+#         samtools sort  -@ {threads} -n {input} -o {output.bam_sorted} > {log} 2>&1
+#         samtools fastq -@ {threads} {output.bam_sorted} -1 {output.fq1} -2 {output.fq2} >> {log} 2>&1
+#         """
 
 
 # analysis of species diversity present AFTER removing human contamination

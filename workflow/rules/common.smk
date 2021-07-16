@@ -331,6 +331,34 @@ def get_reads_after_qc(wildcards, read="both"):
     return pattern
 
 
+def get_reads_after_qc_for_ref_db(wildcards, read="both"):
+
+    if is_amplicon_data(wildcards.sample):
+        pattern = expand(
+            "results/{date}/ref-db/clipped-reads/{sample}.{read}.fastq.gz",
+            date=wildcards.date,
+            read=[1, 2],
+            sample=wildcards.sample,
+        )
+    else:
+        pattern = expand(
+            "results/{date}/ref-db/nonhuman-reads/{sample}.{read}.fastq.gz",
+            date=wildcards.date,
+            read=[1, 2],
+            sample=wildcards.sample,
+        )
+
+    
+    if read == "1":
+        print(pattern[0])
+        return pattern[0]
+    if read == "2":
+        print(pattern[1])
+        return pattern[1]
+
+    return pattern
+
+
 def get_min_coverage(wildcards):
     conf = config["RKI-quality-criteria"]
     if is_amplicon_data(wildcards.sample):

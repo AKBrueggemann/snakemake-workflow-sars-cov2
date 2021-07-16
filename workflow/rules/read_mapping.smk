@@ -42,22 +42,22 @@ rule bwa_large_index:
         "0.69.0/bio/bwa/index"
 
 
-rule map_reads:
-    input:
-        reads=get_reads,
-        idx=get_bwa_index,
-    output:
-        temp("results/{date}/mapped/ref~{reference}/{sample}.bam"),
-    log:
-        "logs/{date}/bwa-mem/ref~{reference}/{sample}.log",
-    params:
-        index=lambda w, input: os.path.splitext(input.idx[0])[0],
-        extra="",
-        sort="samtools",
-        sort_order="coordinate",
-    threads: 8
-    wrapper:
-        "0.69.0/bio/bwa/mem"
+# rule map_reads:
+#     input:
+#         reads=get_reads,
+#         idx=get_bwa_index,
+#     output:
+#         temp("results/{date}/mapped/ref~{reference}/{sample}.bam"),
+#     log:
+#         "logs/{date}/bwa-mem/ref~{reference}/{sample}.log",
+#     params:
+#         index=lambda w, input: os.path.splitext(input.idx[0])[0],
+#         extra="",
+#         sort="samtools",
+#         sort_order="coordinate",
+#     threads: 8
+#     wrapper:
+#         "0.69.0/bio/bwa/mem"
 
 
 rule mark_duplicates:
