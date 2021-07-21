@@ -126,32 +126,33 @@ def update_sample_sheet(SAMPLE_SHEET, CONFIG_YAML, verbose=True, dry_run=False):
         
         # get id of sample, thus split at first '_'
         new_files_df["sample_name"] = new_files_df["file"].apply(
-            lambda x: (x.split("_", 1)[0])
+            lambda x: (x.split(".", 1)[0])
         )
-
+        
         # add path of file
         new_files_df["path"] = DATA_PATH + '/' + new_files_df["file"]
-
+        
         # identify R1 or R2
         new_files_df["read"] = new_files_df["file"].apply(
-            lambda x: "R1" if "R1" in x else "R2"
+            lambda x: ".1" if ".1" in x else ".2"
         )
-
+        
         # set multiindex
         new_files_df.set_index(
             [new_files_df["sample_name"], new_files_df["read"]], inplace=True
         )
-
+        
         # drop not need columns
         new_files_df.drop(columns=["file", "sample_name", "read"], inplace=True)
-
+        
         # unstack multiindex
         new_files_df = new_files_df.unstack(1)
+
         new_files_df.sort_index(inplace=True)
         new_files_df.columns = ["fq1", "fq2"]
         new_files_df["run_id"] = today
         new_files_df["is_amplicon_data"] = 1
-
+        
         new_sample_sheet = (
             pd.read_csv(SAMPLE_SHEET, index_col="sample_name")
             .append(new_files_df)
