@@ -1,3 +1,11 @@
+'Copyright 2021 Thomas Battenfeld, Alexander Thomas, Johannes Köster.
+' 
+'Licensed under the GNU GPLv3 license (https://opensource.org/licenses/GPL-3.0)
+' 
+'This file may not be copied, modified, or distributed
+' 
+'except according to those terms.
+'
 sys.stderr = open(snakemake.log[0], "w")
 min_identity = snakemake.params.get("min_identity", 0.9)
 max_n = snakemake.params.get("max_n", 0.05)
