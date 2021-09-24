@@ -18,7 +18,7 @@ jobs:
             'This file may not be copied, modified, or distributed\n' 
             'except according to those terms.\n'
           FileType: '.py, .smk'
-          Path: '../../workflow/rules, ../../workflow/scripts/'
+          Path: 'workflow/rules, workflow/scripts/'
           IgnorePath: ''
       # Creates pull request with all changes in file
       - name: Create Pull Request
