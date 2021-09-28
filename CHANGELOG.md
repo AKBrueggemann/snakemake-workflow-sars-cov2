@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://www.github.com/AKBrueggemann/snakemake-workflow-sars-cov2/compare/v0.2.5...v0.3.0) (2021-09-28)
+
+
+### Features
+
+* comparison of assemblers ([#172](https://www.github.com/AKBrueggemann/snakemake-workflow-sars-cov2/issues/172)) ([8233829](https://www.github.com/AKBrueggemann/snakemake-workflow-sars-cov2/commit/8233829467b9cfaa45291225d05a8d6e34da044c))
+
 ### [0.2.5](https://www.github.com/koesterlab/snakemake-workflow-sars-cov2/compare/v0.2.4...v0.2.5) (2021-09-23)
 
 
