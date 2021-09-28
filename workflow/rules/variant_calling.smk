@@ -1,3 +1,8 @@
+'# Copyright 2021 Thomas Battenfeld, Alexander Thomas, Johannes Köster.' 
+'# Licensed under the GNU GPLv3 license (https://opensource.org/licenses/GPL-3.0)' 
+'# This file may not be copied, modified, or distributed' 
+'# except according to those terms.
+'
 '# Copyright ' + str(datetime.datetime.now().year)  + ' Thomas Battenfeld, Alexander Thomas, Johannes Köster.' 
 '# Licensed under the GNU GPLv3 license (https://opensource.org/licenses/GPL-3.0)' 
 '# This file may not be copied, modified, or distributed' 
